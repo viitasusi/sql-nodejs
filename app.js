@@ -7,7 +7,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '***',
+  password : 'Cac0f0n3',
   database : 'yritys'
 });
 
@@ -16,23 +16,15 @@ connection.connect();
 
 
 app.get('/testi', function(req, res) {
-	var strQuery = 'select ID from tyontekija';
+	var strQuery = 'select * from tyontekija';
 	var sendThis;
 
-	connection.query( strQuery, function(err, rows, res){
-  	/*if(err)	{
-  		throw err;
-  		//res.send('ongelma');
-  	}else{*/
+	connection.query( strQuery, function(err, rows, resp){
   		console.log( rows );
-  		sendThis = rows;
-  		var testi = rows[0];
-  		console.log(JSON.stringify(testi));
-  		res.send(testi);
+  		sendThis = rows //JSON.stringify(rows);
+  		res.send(sendThis);
   	
   });
-	console.log(sendThis);
-	
 });
 
 
