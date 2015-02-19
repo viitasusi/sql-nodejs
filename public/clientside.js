@@ -32,7 +32,8 @@ $.get('/testi', function(data){
 	}
 
 /*Liitetään taulukko HTML-dokumenttiin*/
-
+$info = $("<p><b>Tässä on listattuna yrityksen työntekijät</b></p>");
+$info.appendTo( $('#tuloste') );
 $table.appendTo( $( '#tuloste' ) );
 
 
@@ -67,6 +68,8 @@ $.get('/testi2', function(data){
 	    $table.append( $line );
 	}
 
+$info = $("<p><b>Tässä on listattuna yrityksen toimipisteet</b></p>");
+$info.appendTo( $('#tuloste') );
 $table.appendTo( $( '#tuloste' ) );
 
 
@@ -99,6 +102,8 @@ $.get('/testi3', function(data){
 	    $table.append( $line );
 	}
 
+$info = $("<p><b>Tässä on listattuna myydyt tuotteet ja kuka tuotteen on myynyt</b></p>");
+$info.appendTo( $('#tuloste') );
 $table.appendTo( $( '#tuloste' ) );
 
 
