@@ -2,16 +2,20 @@
 Kun funktio saa vastauksen, vastaus tulostetaan taulukkoon, joka lopuksi liitetään HTML-dokumenttiin.
 JQuerya käyttävä ratkaisu ei ole ihan oma luomukseni. Löysin ratkaisun StackOverflowsta ja muokkasin siitä 
 omaan tarkoitukseeni sopivan. Steal with pride!*/
+
 function funktio() {
 $.get('/testi', function(data){
 	var employees = data;
 	console.log(data);
+	$( '#tyontekijat' ).empty();
 	
 	/*Luodaan pari muuttujaa taulukon ylimmän rivin tulostamista varten*/
+
 	var nimi = "<b>nimi</b>";
 	var ID = "<b>ID</b>";
 
 	/*Luodaan taulukko ja tulostetaan siihen työntekijän nimi ja ID*/
+
 	var $table = $( "<table></table>" );
 	var $line = $( "<tr></tr>" );
 	$line.append( $( "<td></td>" ).html( nimi ) );
@@ -28,17 +32,20 @@ $.get('/testi', function(data){
 	}
 
 /*Liitetään taulukko HTML-dokumenttiin*/
-$table.appendTo( document.body );
+
+$table.appendTo( $( '#tyontekijat' ) );
 
 
 });
 }
 
 /*Vastaavalla peraattteella toimiva funktio Yrityksen tomipisteiden tietojen tulostamiseen*/
+
 function funktio2() {
 $.get('/testi2', function(data){
 	var toimipisteet = data;
 	console.log(data);
+	$( '#toimipisteet' ).empty();
 	var nimi = "<b>nimi</b>";
 	var katuosoite = "<b>katuosoite</b>";
 	var email = "<b>email</b>"
@@ -60,10 +67,15 @@ $.get('/testi2', function(data){
 	    $table.append( $line );
 	}
 
-$table.appendTo( document.body );
+$table.appendTo( $( '#toimipisteet' ) );
 
 
 });
+}
+
+function funktio3() {
+	$( '#toimipisteet' ).empty();
+	$( '#tyontekijat' ).empty();
 }
 
 
