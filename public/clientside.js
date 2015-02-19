@@ -7,7 +7,7 @@ function funktio() {
 $.get('/testi', function(data){
 	var employees = data;
 	console.log(data);
-	$( '#tyontekijat' ).empty();
+	$( '#tuloste' ).empty();
 	
 	/*Luodaan pari muuttujaa taulukon ylimmän rivin tulostamista varten*/
 
@@ -33,7 +33,7 @@ $.get('/testi', function(data){
 
 /*Liitetään taulukko HTML-dokumenttiin*/
 
-$table.appendTo( $( '#tyontekijat' ) );
+$table.appendTo( $( '#tuloste' ) );
 
 
 });
@@ -45,7 +45,7 @@ function funktio2() {
 $.get('/testi2', function(data){
 	var toimipisteet = data;
 	console.log(data);
-	$( '#toimipisteet' ).empty();
+	$( '#tuloste' ).empty();
 	var nimi = "<b>nimi</b>";
 	var katuosoite = "<b>katuosoite</b>";
 	var email = "<b>email</b>"
@@ -67,16 +67,51 @@ $.get('/testi2', function(data){
 	    $table.append( $line );
 	}
 
-$table.appendTo( $( '#toimipisteet' ) );
+$table.appendTo( $( '#tuloste' ) );
 
 
 });
 }
 
+function funktio4() {
+$.get('/testi3', function(data){
+	var myydyt = data;
+	console.log(data);
+	$( '#tuloste' ).empty();
+	var myyja = "<b>myyjä</b>";
+	var tuote = "<b>tuote</b>";
+	var tilausnumero = "<b>tilausnumero</b>"
+
+	var $table = $( "<table></table>" );
+	var $line = $( "<tr></tr>" );
+	$line.append( $( "<td></td>" ).html( myyja ) );
+	$line.append( $( "<td></td>" ).html( tuote ) );
+	$line.append( $( "<td></td>" ).html( tilausnumero ) );
+	$table.append( $line );
+	
+
+	for ( var i = 0; i < myydyt.length; i++ ) {
+	    var myy = myydyt[i];
+	    var $line = $( "<tr></tr>" );
+	    $line.append( $( "<td></td>" ).html( myy.Myyja ) );
+	    $line.append( $( "<td></td>" ).html( myy.Tuote ) );
+	    $line.append( $( "<td></td>" ).html( myy.Tilausnumero ) );
+	    $table.append( $line );
+	}
+
+$table.appendTo( $( '#tuloste' ) );
+
+
+});
+}
+
+
+
+
 /*tyhjentää sivustolle tulostetut tietokantatiedot*/
 function funktio3() {
-	$( '#toimipisteet' ).empty();
-	$( '#tyontekijat' ).empty();
+	$( '#tuloste' ).empty();
+	
 }
 
 

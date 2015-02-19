@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'Cac0f0n3',
   database : 'yritys'
 });
 
@@ -41,6 +41,19 @@ app.get('/testi2', function(req, res) {
     
   });
 });
+
+app.get('/testi3', function(req, res) {
+  var strQuery = 'SELECT  tilaukset.Myyja,  tuote.Nimi  AS Tuote,  tilauslista.Tilausnumero  FROM  tilauslista INNER JOIN  tuote ON tilauslista.Tuotenumero=tuote.Tuotenumero Inner JOIN  tilaukset ON tilaukset.Tilausnumero=tilauslista.Tilausnumero';
+  var sendThis;
+
+  connection.query( strQuery, function(err, rows, resp){
+      console.log( rows );
+      sendThis = rows //JSON.stringify(rows);
+      res.send(sendThis);
+    
+  });
+});
+
 
 /*Määritellään, palvelimen asetuksia*/
 var server = app.listen(3000, function () {
