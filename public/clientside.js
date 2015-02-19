@@ -73,6 +73,7 @@ $table.appendTo( $( '#toimipisteet' ) );
 });
 }
 
+/*tyhjentää sivustolle tulostetut tietokantatiedot*/
 function funktio3() {
 	$( '#toimipisteet' ).empty();
 	$( '#tyontekijat' ).empty();
