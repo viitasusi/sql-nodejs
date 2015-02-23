@@ -1,0 +1,139 @@
+##Taulujen luominen
+
+CREATE	TABLE	toimipiste	(	
+Nimi VARCHAR(20)	NOT	NULL,	
+Katuosoite VARCHAR(40),	
+Postinumero	INT(5),	
+Kaupunki VARCHAR(15),	
+Puhelinnumero INT(15),	
+Email VARCHAR(40),	
+Henkilostomaara	INT(3),	
+CONSTRAINT	PRIMARY KEY	(Nimi));
+
+CREATE	TABLE	tyontekija	(	
+ID	INT(5)	ZEROFILL,	
+Toimipiste	VARCHAR(20),
+Tyotehtava	VARCHAR	(20)	NOT	NULL,	
+Palkka	INT(6)	NOT	NULL,	
+Nimi VARCHAR(50),	
+CONSTRAINT	PRIMARY	KEY	(ID),	
+CONSTRAINT	FOREIGN	KEY (Toimipiste) REFERENCES	toimipiste(Nimi) ON	DELETE	RESTRICT ON	UPDATE CASCADE);
+
+CREATE	TABLE	asiakas	(	
+Asiakasnumero INT(10) NOT NULL,	
+Katuosoite VARCHAR(40),	
+Postinumero	INT(5),	
+Kaupunki VARCHAR(15),	
+Puhelinnumero INT(15),	
+Email VARCHAR(40),	
+CONSTRAINT	PRIMARY	KEY	(Asiakasnumero));
+
+CREATE	TABLE	tilaukset	(	
+Tilausnumero	INT(10)	NOT	NULL,	
+Myyja	INT(5) ZEROFILL,	
+Asiakasnumero INT(10) NOT NULL,	
+Tilauspaiva	DATE,	
+CONSTRAINT PRIMARY	KEY	(Tilausnumero),	
+CONSTRAINT	FOREIGN	KEY	(Asiakasnumero) REFERENCES	asiakas(Asiakasnumero)	ON	DELETE	RESTRICT	ON	UPDATE CASCADE,	CONSTRAINT	FOREIGN	KEY	(Myyja)	REFERENCES	tyontekija(ID)	ON DELETE RESTRICT ON UPDATE CASCADE);
+
+CREATE	TABLE	tuote	(	
+Tuotenumero	INT(5)	NOT	NULL,	
+Hinta	INT(4)	NOT NULL,	
+Nimi VARCHAR(30)	NOT	NULL,	
+Tilauskerrat INT(10),	
+Tulot FLOAT(10),
+CONSTRAINT	PRIMARY	KEY	(Tuotenumero));
+
+CREATE	TABLE	tilauslista	(	
+Tilausnumero INT(10) NOT NULL,	
+Tuotenumero INT(5)	NOT	NULL,	
+CONSTRAINT	FOREIGN	KEY	(Tilausnumero)	REFERENCES tilaukset (Tilausnumero)	ON	DELETE	CASCADE	ON	UPDATE	CASCADE,
+CONSTRAINT	FOREIGN	KEY(Tuotenumero) REFERENCES	tuote(Tuotenumero) ON	DELETE	CASCADE	ON	UPDATE	CASCADE);
+
+CREATE	TABLE	Kayttajatunnukset	(	
+Tunnus	INT(5)	ZEROFILL,	
+Salasana VARCHAR(40) NOT NULL);
+
+##Trigger
+
+CREATE	TRIGGER	luosalasana	AFTER	INSERT	ON	tyontekija	FOR	EACH	ROW INSERT	INTO	Kayttajatunnukset	VALUES (NEW.ID, SHA1(CONCAT(LEFT(NEW.Nimi,	3),	RIGHT(NEW.Toimipiste,	3))));
+
+##Taulut täyteen
+
+INSERT	INTO	toimipiste
+(Nimi,Katuosoite,Postinumero,Kaupunki,Puhelinnumero,Email,Henkilostomaara)
+VALUES	
+("Australia","P.O.	Box	811,	8679	Odio,	St.","4383","Saint-Jean-Geest","02	75	76	70	43","nec.tellus@arcu.com",5),
+("Ireland","Ap	#365-5152 Vehicula.	St.","6443","Heerlen","03	48	18	17	46","eu@mattisvelit.ca",7),
+("Belarus","8545	Iaculis	St.","3978","Petit-Hallet","05	36	07	53 02","non@Curabiturdictum.com",7),("Philippines","984-3365 Tellus, Rd.","1171","Veldegem","03	56	04	62 42","dignissim@porttitorvulputateposuere.org",4),
+("United	States","Ap	#770-6273	Amet	Street","49904","Pretoro","07	13	74	9347","rutrum@vulputaterisus.ca",5),
+("Burundi","Ap	#779-6838	Et	Av.","57284-817","Sagamu","01	35	02	05 92","lobortis.augue.scelerisque@vestibulum.edu",4),
+("Portugal","6033 Facilisis.	St.","10311","Ponte	San	Nicolò","06	59	81	36 97","In@vestibulum.org",8),
+("Senegal","321-305	Mi, Avenue","9842","Castelló","08	03	65	01	41","sit.amet@Inornaresagittis.org",3),
+("Argentina","P.O.	Box	186,	5965	Sodales.	Road","1106","Termes","08	59	85	42 06","Aenean.egestas@torquentperconubia.org",3),
+("Panama","9599	Purus Street","44-855","Aurora","02	18	42	73	70","eget@magnis.com",8);
+
+INSERT	INTO	tyontekija	(ID,Toimipiste,Tyotehtava,Palkka,Nimi)	
+VALUES
+(11943,"Australia","Renki",1812,"Noelle	Weaver"),
+(47223,"Ireland","Matkaopas",3903,"Inez	Patton"),
+(66838,"Ireland","Siivooja",4374,"Charissa	Shelton"),	
+(63894,"United States","Arkkitehti",3126,"Cally	Wiggins"),
+(93894,"Ireland","Pappi",3125,"Roanna	Price"),
+(82734,"Panama","Toimitusjohtaja",1574,"Claudia	Hebert"),
+(62638,"Panama","Kuski",1577,"Octavia	Marquez"),
+(44083,"Panama","Myyntijohtaja",1879,"Janna	Mayer"),
+(94981,"Panama","Renki",4284,"Britanni	Meadows"),
+(39515,"Panama","Asentaja",4188,"Whitney	Dennis");
+
+INSERT	INTO	 asiakas (Asiakasnumero , Katuosoite , Postinumero , Kaupunki , Puhelinnumero , Email)	
+VALUES
+(74302,"Ap	#550-2989	Lacus.	Road","10307","Sesto	al	Reghena","045-042-4336","lorem@elit.ca"),	
+(63852,"Ap	#615-2432	Molestie Avenue","10809","Harrisburg","036-031-3716","euismod.mauris@fermentum.co.uk"),	
+(51714,"P.O.	Box	482,	6067 Sapien,	St.","1420","Dongelberg","023-929-9806","bibendum@tellusjustosit.ca"),	
+(66303,"Ap	#269-1773	Ultrices, Av.","22594","Warri","098-666-0063","a@sempertellusid.net"),	
+(60393,"P.O.	Box 523,	4118	Et	Avenue","262933","Sherbrooke","056-226-3112","adipiscing.ligula.Aenean@laoreet.com"),	
+(17566,"Ap	#683-7909Tristique	Road","2248","Périgueux","056-710-5416","semper.cursus.Integer@ultricesiaculisodio.org"),	
+(23030,"Ap	#379-390 Dignissim	Avenue","V8N	8GE","Kingston-on-Thames","026-067-3147","hendrerit@pharetraQuisqueac.edu"),	
+(14668,"7035 At Street","88825","Sint-Joost-ten-Node","025-864-2325","eget.metus.In@loremfringillaornare.co.uk"),
+(53530,"P.O.	Box	542,	238 Nam	Av.","S8W	5A7","Rabbi","055-256-8150","ut.nulla@uterosnon.net"),
+(49253,"Ap	#194-8457	Dictum	St.","98487","Middelburg","002-635-8617","Morbi.vehicula.Pellentesque@iaculisquis.net");
+
+INSERT	INTO	tilaukset	(Tilausnumero,Myyja,Asiakasnumero,Tilauspaiva)
+VALUES	
+(54074,11943,14668,"2014-05-23"),	
+(41606,11943,14668,"2014-09-01"),
+(91642,11943,14668,"2014-03-14"),	
+(9540,11943,14668,"2014-03-07"),
+(45044,39515,14668,"2014-05-22"),	
+(83169,39515,14668,"2014-07-31"),
+(5768,39515,14668,"2015-01-01"),	
+(30360,39515,14668,"2015-01-20"),
+(59133,39515,14668,"2014-11-24"),	
+(16140,39515,14668,"2014-12-30");
+
+INSERT	INTO	tuote	(Tuotenumero,Hinta,Nimi,Tilauskerrat,Tulot)	
+VALUES
+(49303,4,"vasara",66,274),
+(8740,7,"auto",57,746),
+(95788,6,"jakoavain",35,756),
+(19086,2,"makkara",98,811),
+(99631,8,"housut",12,765),
+(25558,5,"vesipullo",4,545),
+(78285,1,"laiva",71,722),
+(14106,2,"tietokone",34,948),
+(6097,4,"ruuvi",15,623),
+(49868,1,"lehti",41,522);
+
+INSERT	INTO	tilauslista	(Tilausnumero,	Tuotenumero)	
+VALUES	
+(54074,49303),
+(54074,49303),	
+(54074,49303),	
+(54074,78285),	
+(54074,78285),	
+(54074,25558),
+(16140,25558),	
+(16140,25558),	
+(83169,8740),	
+(83169,8740);
